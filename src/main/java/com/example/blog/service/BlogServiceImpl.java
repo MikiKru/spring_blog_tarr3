@@ -31,6 +31,12 @@ public class BlogServiceImpl implements BlogService {
     }
     @Override
     public boolean updatePassword(long userId, String newPassword) {
+        if(userRepository.findById(userId).isPresent()){
+            User userToUpdate = userRepository.findById(userId).get();  // pobranie użytkownika po id
+            userToUpdate.setPassword(newPassword);                      // aktualizacja pola password
+            userRepository.save(userToUpdate);                          // zapis/update istniejącego obiektu
+            return true;
+        }
         return false;
     }
     @Override

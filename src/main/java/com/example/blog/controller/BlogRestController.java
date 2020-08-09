@@ -51,4 +51,9 @@ public class BlogRestController {
         }
         return "brak użytkownika o id: " + userId;
     }
+    @PutMapping("/updateUserPassword")
+    public boolean updateUserPassword(@RequestParam("userId") Long userId,
+                                      @RequestParam("newPassword") String newPassword){
+        return blogService.updatePassword(userId,newPassword);
+    }
 }
