@@ -1,14 +1,24 @@
 package com.example.blog.controller;
 
+import com.example.blog.model.User;
+import com.example.blog.service.BlogServiceImpl;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RestController   // kontroler generujący wyniki w postaci REST API
 //@Controller     // kontrolek komunikujący się z warstwą front-end
 public class BlogRestController {
+    private BlogServiceImpl blogService;
+    @Autowired
+    public BlogRestController(BlogServiceImpl blogService) {
+        this.blogService = blogService;
+    }
     @GetMapping("/hello")
     public String hello(){
         return "hello";
@@ -19,8 +29,26 @@ public class BlogRestController {
     }
     // żądanie dodania nowego użytkownika do tabeli user
     @PostMapping("/addUser")
-    public boolean addUser(){
-        // ???
-        return false;
+    public boolean addUser(
+            @RequestParam("name") String name, @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email, @RequestParam("password") String password
+    ){
+        return blogService.addUser(new User(name, lastName, email, password));
+    }
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return blogService.getAllUsersOrderByregistrationDateDesc();
+    }
+    @DeleteMapping("/deleteUser")
+    public boolean deleteUser(@RequestParam("userId") Long userId){
+        return blogService.deleteUser(userId);
+    }
+    @GetMapping("/user/{userId}")
+    public String getUserById(@PathVariable("userId") Long userId){
+        Optional<User> userOpt = blogService.getUserById(userId);
+        if(userOpt.isPresent()){
+            return userOpt.get().toString();
+        }
+        return "brak użytkownika o id: " + userId;
     }
 }
