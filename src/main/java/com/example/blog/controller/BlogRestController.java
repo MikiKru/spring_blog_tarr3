@@ -1,5 +1,7 @@
 package com.example.blog.controller;
 
+import com.example.blog.model.Category;
+import com.example.blog.model.Post;
 import com.example.blog.model.User;
 import com.example.blog.service.BlogServiceImpl;
 import lombok.AllArgsConstructor;
@@ -55,5 +57,14 @@ public class BlogRestController {
     public boolean updateUserPassword(@RequestParam("userId") Long userId,
                                       @RequestParam("newPassword") String newPassword){
         return blogService.updatePassword(userId,newPassword);
+    }
+    @PostMapping("/addPost")
+    public Post addPostByUser(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("category")Category category,
+            @RequestParam("user_id") long userId
+            ){
+        return blogService.addPostByUser(userId, title, content, category);
     }
 }

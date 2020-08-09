@@ -1,5 +1,7 @@
 package com.example.blog.service;
 
+import com.example.blog.model.Category;
+import com.example.blog.model.Post;
 import com.example.blog.model.User;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public interface BlogService {
     List<User> getAllUsersOrderByregistrationDateDesc();
     // pobranie użytkownika po id
     Optional<User> getUserById(long userId);
+
+    Post addPostByUser(long userId, String title, String content, Category category);
 }
