@@ -3,6 +3,7 @@ package com.example.blog.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController   // kontroler generujący wyniki w postaci REST API
@@ -16,5 +17,10 @@ public class BlogRestController {
     public String helloMe(@PathVariable("name") String name){
         return "hello " + name.toUpperCase();
     }
-
+    // żądanie dodania nowego użytkownika do tabeli user
+    @PostMapping("/addUser")
+    public boolean addUser(){
+        // ???
+        return false;
+    }
 }
