@@ -18,6 +18,8 @@ public interface BlogService {
     List<User> getAllUsersOrderByregistrationDateDesc();
     // pobranie użytkownika po id
     Optional<User> getUserById(long userId);
-
+    // dodawanie posta
     Post addPostByUser(long userId, String title, String content, Category category);
+    // wypisywanie wszystkich postów
+    List<Post> getAllPosts();
 }

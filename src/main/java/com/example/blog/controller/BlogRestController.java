@@ -67,4 +67,8 @@ public class BlogRestController {
             ){
         return blogService.addPostByUser(userId, title, content, category);
     }
+    @GetMapping("/posts")
+    public List<Post> getAllPosts(){
+        return blogService.getAllPosts();
+    }
 }

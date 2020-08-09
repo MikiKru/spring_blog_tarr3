@@ -6,6 +6,7 @@ import com.example.blog.model.User;
 import com.example.blog.repository.PostRepository;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,12 @@ public class BlogServiceImpl implements BlogService {
         this.postRepository = postRepository;
     }
     @Override
+    public List<Post> getAllPosts() {
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "dateAdded"));
+    }
+
+
+    @Override
     public Post addPostByUser(long userId, String title, String content, Category category) {
         if (userRepository.existsById(userId)){
             User user = userRepository.findById(userId).get();
@@ -28,8 +35,6 @@ public class BlogServiceImpl implements BlogService {
         }
         return null;
     }
-
-
     @Override
     public boolean addUser(User user) {
         if(userRepository.findFirstByEmail(user.getEmail()) == null) {
