@@ -17,7 +17,11 @@ public class BlogServiceImpl implements BlogService {
     }
     @Override
     public boolean addUser(User user) {
-        return userRepository.save(user) != null;   // INSERT INTO user VALUES (?,?,?,?,?);
+        if(userRepository.findFirstByEmail(user.getEmail()) != null) {
+            userRepository.save(user);   // INSERT INTO user VALUES (?,?,?,?,?);
+            return true;
+        }
+        return false;
     }
     @Override
     public boolean deleteUser(long userId) {
