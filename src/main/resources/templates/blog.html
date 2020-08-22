@@ -57,6 +57,25 @@
 
   <hr>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <h1>Dodaj nowego posta</h1>
+<!--<form th:action="@{/url_gdzie_przekazujemy_obiekt post"
+          th:method="metoda_jaką przekazujemy_obiekt post"
+          th:object="${nazwa_obiektu -> post}">-->
+        <form th:action="@{/addPost}" th:method="POST" th:object="${newPost}">
+            <input th:field="*{title}" type="text" placeholder="insert title here">
+            <textarea th:field="*{content}" placeholder="insert content here"></textarea>
+            <select th:field="*{category}">
+              <option th:each="c : $cats" th:value="${c.getName()}"></option>
+            </select>
+            <input type="submit" value="add post">
+          </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="container">
