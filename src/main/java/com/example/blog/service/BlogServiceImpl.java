@@ -25,7 +25,10 @@ public class BlogServiceImpl implements BlogService {
     public List<Post> getAllPosts() {
         return postRepository.findAll(Sort.by(Sort.Direction.DESC, "dateAdded"));
     }
-
+    @Override
+    public Optional<Post> getPostById(long postId){
+        return postRepository.findById(postId);
+    }
 
     @Override
     public Post addPostByUser(long userId, String title, String content, Category category) {

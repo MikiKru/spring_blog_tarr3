@@ -22,4 +22,6 @@ public interface BlogService {
     Post addPostByUser(long userId, String title, String content, Category category);
     // wypisywanie wszystkich postów
     List<Post> getAllPosts();
+    // pobranie posta po id
+    Optional<Post> getPostById(long postId);
 }
