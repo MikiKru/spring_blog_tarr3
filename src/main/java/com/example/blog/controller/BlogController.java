@@ -8,8 +8,12 @@ import com.example.blog.service.BlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +39,24 @@ public class BlogController {
                             // -> domyślna lokalizacja to resources/templates
                             // -> nie dopisujemy rozszerzenia .html
     }
+    @PostMapping("/addPost")
+    public String addPost(@Validated @ModelAttribute("newPost") Post newPost,
+                          BindingResult bindingResult,
+                          Model model){
+        if(bindingResult.hasErrors()){
+            // gdy pos nie został dodany widok blog powinien się wyświetlić na znaczniku formularza
+            List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
+            model.addAttribute("header_title", "BLOG IT");
+            model.addAttribute("header_author", "Michal Kruczkowski");
+            model.addAttribute("posts", posts); // przekazanie listy postów do front-end
+            model.addAttribute("cats", Category.values());
+//            model.addAttribute("newPost", new Post());
+            return "blog";
+        }
+        blogService.addPostByUser(
+                1, newPost.getTitle(), newPost.getContent(), newPost.getCategory());
+        return "redirect:/";    // przekierowanie na adres localhost:8080/
+    }
     @GetMapping("/posts&{postId}")
     public String getPost(@PathVariable("postId") Long postId, Model model){
         Optional<Post> postOpt = blogService.getPostById(postId);
@@ -45,4 +67,5 @@ public class BlogController {
         model.addAttribute("post", null);
         return "post";
     }
+
 }

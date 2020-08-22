@@ -68,11 +68,13 @@
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <input th:field="*{title}" class="form-control" type="text" placeholder="insert title here"><br/>
+              <p th:errors="*{title}" class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <textarea th:field="*{content}" class="form-control" placeholder="insert content here"></textarea><br/>
+              <p th:errors="*{content}" class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
