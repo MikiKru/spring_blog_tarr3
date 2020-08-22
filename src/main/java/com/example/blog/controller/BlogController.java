@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -28,5 +29,10 @@ public class BlogController {
         return "blog";      // wartością zwracaną jest nazwa szablony Thymeleaf
                             // -> domyślna lokalizacja to resources/templates
                             // -> nie dopisujemy rozszerzenia .html
+    }
+    @GetMapping("/posts&{postId}")
+    public String getPost(@PathVariable("postId") Long postId, Model model){
+        // ???
+        return "post";
     }
 }

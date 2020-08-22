@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Clean Blog - Start Bootstrap Theme</title>
+  <title>Blog</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,29 +26,8 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-      <!--th:href="@{/}" -> żądanie przekierowania GET na adres localhost:8080/-->
-      <a class="navbar-brand" th:href="@{/}">not logged</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/}">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/addPost}">New Post</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/contact}">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <!--<nav th:replace="katalog/nazwa_pliku.html :: nazwa_znacznika"></nav>-->
+  <nav th:replace="fragments/navbar.html :: nav"></nav>
 
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('img/home-bg.jpg')">
@@ -70,12 +49,12 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div th:each="post : ${posts}" class="post-preview">
-          <a href="post.html">
+          <a th:href="@{'/posts&' + ${post.postId}}">
             <h2 th:text="${post.title}" class="post-title"> post title </h2>
-            <h3 th:text="'Category: ' + ${post.category}" class="post-subtitle"> post category </h3>
+            <h3 th:text="'Category: ' + ${post.category.getName()}" class="post-subtitle"> post category </h3>
           </a>
           <p th:text="'Published by: ' + ${post.author.name} + ' ' + ${post.author.lastName} +
-                      ' date: ' + ${post.dateAdded}"
+                      ' date: ' + ${#temporals.format(post.dateAdded, 'HH:mm dd.MM.yyyy')}"
              class="post-meta"> author and published date </p>
         </div>
         <hr>
