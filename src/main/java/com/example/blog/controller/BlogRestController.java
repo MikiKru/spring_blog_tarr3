@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController   // kontroler generujący wyniki w postaci REST API
+@RequestMapping("/rest")
 //@Controller     // kontrolek komunikujący się z warstwą front-end
 public class BlogRestController {
     private BlogServiceImpl blogService;
