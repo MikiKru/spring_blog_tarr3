@@ -29,6 +29,8 @@ public class BlogController {
         model.addAttribute("header_title", "BLOG IT");
         model.addAttribute("header_author", "Michal Kruczkowski");
         model.addAttribute("posts", posts); // przekazanie listy postów do front-end
+        model.addAttribute("cats", Category.values());
+        model.addAttribute("newPost", new Post());
         return "blog";      // wartością zwracaną jest nazwa szablony Thymeleaf
                             // -> domyślna lokalizacja to resources/templates
                             // -> nie dopisujemy rozszerzenia .html

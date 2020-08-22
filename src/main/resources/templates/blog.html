@@ -65,12 +65,24 @@
           th:method="metoda_jaką przekazujemy_obiekt post"
           th:object="${nazwa_obiektu -> post}">-->
         <form th:action="@{/addPost}" th:method="POST" th:object="${newPost}">
-            <input th:field="*{title}" type="text" placeholder="insert title here">
-            <textarea th:field="*{content}" placeholder="insert content here"></textarea>
-            <select th:field="*{category}">
-              <option th:each="c : $cats" th:value="${c.getName()}"></option>
-            </select>
-            <input type="submit" value="add post">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <input th:field="*{title}" class="form-control" type="text" placeholder="insert title here"><br/>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <textarea th:field="*{content}" class="form-control" placeholder="insert content here"></textarea><br/>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+            <select th:field="*{category}" class="form-control">
+              <option th:each="c : ${cats}" th:value="${c}" th:text="${c.getName()}"></option>
+            </select><br/>
+            </div>
+          </div>
+            <button type="submit" class="btn btn-primary"> add post </button>
           </form>
       </div>
     </div>
