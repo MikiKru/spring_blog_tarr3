@@ -40,9 +40,7 @@ public class BlogController {
             model.addAttribute("post", postOpt.get());
             return "post";
         }
-        User user = new User("Not found","Not found","Not found","Not found");
-        model.addAttribute("post", new Post(
-                "Not found","Not found", Category.NOT_FOUND,user));
+        model.addAttribute("post", null);
         return "post";
     }
 }
