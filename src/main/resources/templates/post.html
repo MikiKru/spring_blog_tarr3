@@ -34,12 +34,15 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
+          <div class="post-heading" th:if="${!post.title.equals('Not found')}">
             <h1 th:text="${post.title}">title</h1>
             <h2 th:text="'Category: ' + ${post.category.getName()}" class="subheading">category</h2>
             <span th:text="'Published by: ' + ${post.author.name} + ' ' + ${post.author.lastName} +
                       ' date: ' + ${#temporals.format(post.dateAdded, 'HH:mm dd.MM.yyyy')}"
                   class="meta">author and date</span>
+          </div>
+          <div class="post-heading" th:if="${post.title.equals('Not found')}">
+            <h1> POST NOT FOUND </h1>
           </div>
         </div>
       </div>
@@ -49,7 +52,7 @@
   <article>
     <div class="container">
       <div class="row">
-        <div th:text="${post.content}" class="col-lg-8 col-md-10 mx-auto">
+        <div th:if="${!post.title.equals('Not found')}" th:text="${post.content}" class="col-lg-8 col-md-10 mx-auto">
           post content
         </div>
       </div>

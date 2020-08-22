@@ -1,9 +1,10 @@
 package com.example.blog.model;
 
 public enum Category {
-    DEV("Programowanie"),
-    DEV_OPS("Administracja"),
-    TESTING("Testowanie");
+    DEV("Programming"),
+    DEV_OPS("Dev-Ops"),
+    TESTING("Testing"),
+    NOT_FOUND("Category not assigned");
     private String name;
 
     Category(String name) {

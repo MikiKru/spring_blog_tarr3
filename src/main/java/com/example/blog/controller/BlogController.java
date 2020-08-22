@@ -1,6 +1,8 @@
 package com.example.blog.controller;
 
+import com.example.blog.model.Category;
 import com.example.blog.model.Post;
+import com.example.blog.model.User;
 import com.example.blog.service.BlogService;
 import com.example.blog.service.BlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller                  // klasa mapująca żądania protokołu http
 public class BlogController {
@@ -32,7 +35,14 @@ public class BlogController {
     }
     @GetMapping("/posts&{postId}")
     public String getPost(@PathVariable("postId") Long postId, Model model){
-        // ???
+        Optional<Post> postOpt = blogService.getPostById(postId);
+        if(postOpt.isPresent()){
+            model.addAttribute("post", postOpt.get());
+            return "post";
+        }
+        User user = new User("Not found","Not found","Not found","Not found");
+        model.addAttribute("post", new Post(
+                "Not found","Not found", Category.NOT_FOUND,user));
         return "post";
     }
 }
