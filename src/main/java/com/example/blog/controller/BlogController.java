@@ -27,8 +27,7 @@ public class BlogController {
     @GetMapping("/")        // na adresie URL localhost:8080/
     public String home(Model model, Authentication auth){   // wywoływana jest metoda zwracająca String
         // Pobranie danych logowania
-        model.addAttribute("auth", auth);
-        blogService.getLoginStatus(auth);
+        model.addAttribute("auth", blogService.getLoginStatus(auth));
         // Model - klasa do przekazywania parametrów pomiędzy warstwą Front i Back -end
         // model.addAttribute("nazwa obiektu w front-end", obiekt przekazywany z back_end);
         List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
@@ -60,7 +59,8 @@ public class BlogController {
         return "redirect:/";    // przekierowanie na adres localhost:8080/
     }
     @GetMapping("/posts&{postId}")
-    public String getPost(@PathVariable("postId") Long postId, Model model){
+    public String getPost(@PathVariable("postId") Long postId, Model model, Authentication auth){
+        model.addAttribute("auth", blogService.getLoginStatus(auth));
         Optional<Post> postOpt = blogService.getPostById(postId);
         if(postOpt.isPresent()){
             model.addAttribute("post", postOpt.get());
@@ -70,7 +70,8 @@ public class BlogController {
         return "post";
     }
     @GetMapping("/addUser")
-    public String addUser(Model model){
+    public String addUser(Model model, Authentication auth){
+        model.addAttribute("auth", blogService.getLoginStatus(auth));
         model.addAttribute("user", new User());
         model.addAttribute("header_title", "REGISTRATION FORM");
         return "registration";
@@ -102,5 +103,10 @@ public class BlogController {
         model.addAttribute("header_title", "LOGIN PAGE");
         model.addAttribute("error", "Bad credentials");
         return "login";
+    }
+    @DeleteMapping("/deletePost")
+    public String deletePost(@ModelAttribute("post") Post post){
+        blogService.deletePost(post);
+        return "redirect:/";
     }
 }

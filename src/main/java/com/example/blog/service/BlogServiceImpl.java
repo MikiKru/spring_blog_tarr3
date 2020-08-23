@@ -106,9 +106,10 @@ public class BlogServiceImpl implements BlogService {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String email = userDetails.getUsername();
             Set<GrantedAuthority> roles = (Set<GrantedAuthority>) userDetails.getAuthorities();
-            return email + "(" + roles.stream()
-                                    .map(grantedAuthority -> grantedAuthority.toString())
-                                    .collect(Collectors.joining(", ")) + ")";
+            return email + " (" + roles.stream()
+                                    .map(grantedAuthority -> grantedAuthority.toString()
+                                            .replace("ROLE_",""))
+                                    .collect(Collectors.joining(",")) + ")";
         }
         return null;
     }

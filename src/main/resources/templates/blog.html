@@ -45,12 +45,12 @@
           <p th:text="'Published by: ' + ${post.author.name} + ' ' + ${post.author.lastName} +
                       ' date: ' + ${#temporals.format(post.dateAdded, 'HH:mm dd.MM.yyyy')}"
              class="post-meta"> author and published date </p>
+          <form th:action="@{/deletePost}" th:method="DELETE" th:object="${post}">
+            <button class="btn btn-danger float-right" type="submit"> delete </button>
+          </form>
         </div>
         <hr>
-        <!-- Pager -->
-        <!--<div class="clearfix">-->
-          <!--<a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>-->
-        <!--</div>-->
+
       </div>
     </div>
   </div>
