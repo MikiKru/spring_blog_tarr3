@@ -76,13 +76,19 @@ public class BlogController {
     }
     @PostMapping("/addUser")
     public String addUser(@Valid @ModelAttribute("user") User user,
-                          BindingResult bindingResult){
+                          BindingResult bindingResult,
+                          Model model){
         if(bindingResult.hasErrors()) {
             return "registration";
         }
-        blogService.addUser(new User(
+        boolean isRegistered = blogService.addUser(new User(
                 user.getName(), user.getLastName(),
                 user.getEmail(), user.getPassword()));
-        return "redirect:/";
+        if(isRegistered){
+            return "redirect:/";
+        }
+        model.addAttribute("isRegistered",
+                "Email: " + user.getEmail() + " is registered in our service");
+        return "registration";
     }
 }

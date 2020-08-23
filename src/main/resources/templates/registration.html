@@ -38,7 +38,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-
+        <p th:if="${isRegistered != null}" th:text="${isRegistered}" class="help-block text-danger"></p>
         <form th:action="@{/addUser}" th:method="POST" th:object="${user}">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">

@@ -26,8 +26,9 @@ public class User {
     @NotBlank(message = "field last name is mandatory")
     private String lastName;
     @Email(message = "email is not valid")
-    @NotBlank(message = "field name is mandatory")
+    @NotBlank(message = "field email is mandatory")
     private String email;
+    @NotBlank(message = "field password is mandatory")
     @Size(min = 6, max = 255,
             message = "password requires at least {min} characters (not more than {max})")
     private String password;
