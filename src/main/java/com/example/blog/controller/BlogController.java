@@ -91,4 +91,9 @@ public class BlogController {
                 "Email: " + user.getEmail() + " is registered in our service");
         return "registration";
     }
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("header_title", "LOGIN PAGE");
+        return "login";
+    }
 }
