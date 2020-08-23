@@ -28,6 +28,7 @@ public class BlogController {
     public String home(Model model, Authentication auth){   // wywoływana jest metoda zwracająca String
         // Pobranie danych logowania
         model.addAttribute("auth", auth);
+        blogService.getLoginStatus(auth);
         // Model - klasa do przekazywania parametrów pomiędzy warstwą Front i Back -end
         // model.addAttribute("nazwa obiektu w front-end", obiekt przekazywany z back_end);
         List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB

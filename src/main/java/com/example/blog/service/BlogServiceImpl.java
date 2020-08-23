@@ -9,12 +9,18 @@ import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -95,6 +101,16 @@ public class BlogServiceImpl implements BlogService {
         return userRepository.findAll();
     }
 
-
+    public String getLoginStatus(Authentication auth){
+        if(auth != null) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String email = userDetails.getUsername();
+            Set<GrantedAuthority> roles = (Set<GrantedAuthority>) userDetails.getAuthorities();
+            return email + "(" + roles.stream()
+                                    .map(grantedAuthority -> grantedAuthority.toString())
+                                    .collect(Collectors.joining(", ")) + ")";
+        }
+        return null;
+    }
 
 }
