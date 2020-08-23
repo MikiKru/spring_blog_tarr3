@@ -113,5 +113,7 @@ public class BlogServiceImpl implements BlogService {
         }
         return null;
     }
-
+    public void deletePost(Post post){
+        postRepository.deleteById(post.getPostId());
+    }
 }

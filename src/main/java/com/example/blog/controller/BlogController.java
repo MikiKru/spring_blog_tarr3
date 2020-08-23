@@ -104,9 +104,11 @@ public class BlogController {
         model.addAttribute("error", "Bad credentials");
         return "login";
     }
-    @DeleteMapping("/deletePost")
-    public String deletePost(@ModelAttribute("post") Post post){
-        blogService.deletePost(post);
+    @PostMapping("/deletePost")
+    public String deletePost(
+            @RequestParam("post_id") long postId){
+        System.out.println(postId);
+//        blogService.deletePost(post);
         return "redirect:/";
     }
 }

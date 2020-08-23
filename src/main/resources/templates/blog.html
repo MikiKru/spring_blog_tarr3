@@ -45,7 +45,8 @@
           <p th:text="'Published by: ' + ${post.author.name} + ' ' + ${post.author.lastName} +
                       ' date: ' + ${#temporals.format(post.dateAdded, 'HH:mm dd.MM.yyyy')}"
              class="post-meta"> author and published date </p>
-          <form th:action="@{/deletePost}" th:method="DELETE" th:object="${post}">
+          <form th:action="@{/deletePost}" th:method="POST">
+            <input type="text" th:name="post_id" th:value="${post.postId}" hidden>
             <button class="btn btn-danger float-right" type="submit"> delete </button>
           </form>
         </div>
