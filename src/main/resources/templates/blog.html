@@ -47,9 +47,15 @@
              class="post-meta"> author and published date </p>
           <div th:if="${auth != null}" class="clearfix">
             <div th:if="${isAdmin}">
-              <form th:action="@{/deletePost}" th:method="POST">
+              <form th:action="@{/deletePost}" th:method="POST" th:object="${post}">
                 <input type="text" th:name="post_id" th:value="${post.postId}" hidden>
-                <button class="btn btn-danger float-right" type="submit"> delete </button>
+                <button class="btn btn-danger float-right" type="submit">delete</button>
+              </form>
+            </div>
+            <div th:if="${author.equals(post.getAuthor())}">
+              <form th:action="@{/deletePost}" th:method="POST" th:object="${post}">
+                <input type="text" th:name="post_id" th:value="${post.postId}" hidden>
+                <button class="btn btn-danger float-right" type="submit">delete</button>
               </form>
             </div>
           </div>

@@ -26,11 +26,9 @@ public class BlogController {
     }
     @GetMapping("/")        // na adresie URL localhost:8080/
     public String home(Model model, Authentication auth){   // wywoływana jest metoda zwracająca String
-        // Pobranie danych logowania
         model.addAttribute("auth", blogService.getLoginStatus(auth));
         model.addAttribute("isAdmin", blogService.isAdmin(auth));
-        // Model - klasa do przekazywania parametrów pomiędzy warstwą Front i Back -end
-        // model.addAttribute("nazwa obiektu w front-end", obiekt przekazywany z back_end);
+        model.addAttribute("author", blogService.getLoggedUser(auth));
         List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
         model.addAttribute("header_title", "BLOG IT");
         model.addAttribute("header_author", "Michal Kruczkowski");
@@ -44,7 +42,7 @@ public class BlogController {
     @PostMapping("/addPost")
     public String addPost(@Validated @ModelAttribute("newPost") Post newPost,
                           BindingResult bindingResult,
-                          Model model){
+                          Model model, Authentication auth){
         if(bindingResult.hasErrors()){
             // gdy pos nie został dodany widok blog powinien się wyświetlić na znaczniku formularza
             List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
@@ -56,7 +54,7 @@ public class BlogController {
             return "blog";
         }
         blogService.addPostByUser(
-                1, newPost.getTitle(), newPost.getContent(), newPost.getCategory());
+                blogService.getLoggedUser(auth).getUserId(), newPost.getTitle(), newPost.getContent(), newPost.getCategory());
         return "redirect:/";    // przekierowanie na adres localhost:8080/
     }
     @GetMapping("/posts&{postId}")
