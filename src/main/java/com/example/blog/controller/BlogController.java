@@ -28,6 +28,7 @@ public class BlogController {
     public String home(Model model, Authentication auth){   // wywoływana jest metoda zwracająca String
         // Pobranie danych logowania
         model.addAttribute("auth", blogService.getLoginStatus(auth));
+        model.addAttribute("isAdmin", blogService.isAdmin(auth));
         // Model - klasa do przekazywania parametrów pomiędzy warstwą Front i Back -end
         // model.addAttribute("nazwa obiektu w front-end", obiekt przekazywany z back_end);
         List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
@@ -108,7 +109,7 @@ public class BlogController {
     public String deletePost(
             @RequestParam("post_id") long postId){
         System.out.println(postId);
-//        blogService.deletePost(post);
+        blogService.deletePostById(postId);
         return "redirect:/";
     }
 }

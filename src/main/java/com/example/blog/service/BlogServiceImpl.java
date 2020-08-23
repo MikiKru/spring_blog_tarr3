@@ -113,7 +113,23 @@ public class BlogServiceImpl implements BlogService {
         }
         return null;
     }
-    public void deletePost(Post post){
-        postRepository.deleteById(post.getPostId());
+    public void deletePostById(long postId){
+        postRepository.deleteById(postId);
+    }
+    public boolean isAdmin(Authentication auth) {
+        if (auth != null) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            return userDetails.getAuthorities()
+                    .stream()
+                    .anyMatch(o -> ((GrantedAuthority) o).getAuthority().equals("ROLE_ADMIN"));
+        }
+        return false;
+    }
+    public User getLoggedUser(Authentication auth){
+        if (auth != null) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            return userRepository.findFirstByEmail(userDetails.getUsername());
+        }
+        return null;
     }
 }
