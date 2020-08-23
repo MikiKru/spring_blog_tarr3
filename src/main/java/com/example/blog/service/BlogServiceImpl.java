@@ -22,6 +22,10 @@ public class BlogServiceImpl implements BlogService {
         this.postRepository = postRepository;
     }
     @Override
+    public void addRoleToUserByEmail(String email, long roleId) {
+
+    }
+    @Override
     public List<Post> getAllPosts() {
         return postRepository.findAll(Sort.by(Sort.Direction.DESC, "dateAdded"));
     }
@@ -29,6 +33,8 @@ public class BlogServiceImpl implements BlogService {
     public Optional<Post> getPostById(long postId){
         return postRepository.findById(postId);
     }
+
+
 
     @Override
     public Post addPostByUser(long userId, String title, String content, Category category) {
