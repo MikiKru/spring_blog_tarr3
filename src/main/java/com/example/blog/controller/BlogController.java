@@ -6,6 +6,7 @@ import com.example.blog.model.User;
 import com.example.blog.service.BlogService;
 import com.example.blog.service.BlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,9 @@ public class BlogController {
         this.blogService = blogService;
     }
     @GetMapping("/")        // na adresie URL localhost:8080/
-    public String home(Model model){   // wywoływana jest metoda zwracająca String
+    public String home(Model model, Authentication auth){   // wywoływana jest metoda zwracająca String
+        // Pobranie danych logowania
+        model.addAttribute("auth", auth);
         // Model - klasa do przekazywania parametrów pomiędzy warstwą Front i Back -end
         // model.addAttribute("nazwa obiektu w front-end", obiekt przekazywany z back_end);
         List<Post> posts = blogService.getAllPosts();   // pobranie postów z DB
