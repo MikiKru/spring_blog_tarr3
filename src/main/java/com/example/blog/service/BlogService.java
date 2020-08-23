@@ -25,5 +25,5 @@ public interface BlogService {
     // pobranie posta po id
     Optional<Post> getPostById(long postId);
     // przypisanie roli do użytkownika
-    void addRoleToUserByEmail(String email, long roleId);
+    User addRoleToUser(User user, String roleName);
 }

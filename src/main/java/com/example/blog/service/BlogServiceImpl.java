@@ -2,11 +2,15 @@ package com.example.blog.service;
 
 import com.example.blog.model.Category;
 import com.example.blog.model.Post;
+import com.example.blog.model.Role;
 import com.example.blog.model.User;
 import com.example.blog.repository.PostRepository;
+import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,14 +20,33 @@ import java.util.Optional;
 public class BlogServiceImpl implements BlogService {
     private UserRepository userRepository;
     private PostRepository postRepository;
+    private RoleRepository roleRepository;
     @Autowired
-    public BlogServiceImpl(UserRepository userRepository, PostRepository postRepository) {
+    private PasswordEncoder bCrypt;
+
+    @Autowired
+    public BlogServiceImpl(UserRepository userRepository, PostRepository postRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.roleRepository = roleRepository;
     }
     @Override
-    public void addRoleToUserByEmail(String email, long roleId) {
-
+    public boolean addUser(User user) {
+        if(userRepository.findFirstByEmail(user.getEmail()) == null) {
+            // przypisanie roli
+            addRoleToUser(user, "ROLE_USER");
+            // szyfrowanie hasła algorytmem bCrypt
+            user.setPassword(bCrypt.encode(user.getPassword()));
+            userRepository.save(user);   // INSERT INTO user VALUES (?,?,?,?,?);
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public User addRoleToUser(User user, String roleName) {
+        Role role = roleRepository.findFirstByRoleName(roleName);
+        user.getRoles().add(role);
+        return user;
     }
     @Override
     public List<Post> getAllPosts() {
@@ -44,14 +67,7 @@ public class BlogServiceImpl implements BlogService {
         }
         return null;
     }
-    @Override
-    public boolean addUser(User user) {
-        if(userRepository.findFirstByEmail(user.getEmail()) == null) {
-            userRepository.save(user);   // INSERT INTO user VALUES (?,?,?,?,?);
-            return true;
-        }
-        return false;
-    }
+
     @Override
     public boolean deleteUser(long userId) {
         boolean isDeleted = userRepository.existsById(userId);

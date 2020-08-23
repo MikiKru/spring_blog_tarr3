@@ -13,6 +13,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/addPost").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                .anyRequest().permitAll();
+                .antMatchers("/posts*").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .anyRequest().permitAll()
+                    .and()
+                .csrf().disable()
+                .formLogin().loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .loginProcessingUrl("/login_process")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/")
+                    .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
     }
 }
