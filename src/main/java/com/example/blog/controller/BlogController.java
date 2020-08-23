@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class BlogController {
             model.addAttribute("header_author", "Michal Kruczkowski");
             model.addAttribute("posts", posts); // przekazanie listy postów do front-end
             model.addAttribute("cats", Category.values());
-//            model.addAttribute("newPost", new Post());
+//            return "redirect:/#simpleAnchor";
             return "blog";
         }
         blogService.addPostByUser(
@@ -67,5 +68,21 @@ public class BlogController {
         model.addAttribute("post", null);
         return "post";
     }
-
+    @GetMapping("/addUser")
+    public String addUser(Model model){
+        model.addAttribute("user", new User());
+        model.addAttribute("header_title", "REGISTRATION FORM");
+        return "registration";
+    }
+    @PostMapping("/addUser")
+    public String addUser(@Valid @ModelAttribute("user") User user,
+                          BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return "registration";
+        }
+        blogService.addUser(new User(
+                user.getName(), user.getLastName(),
+                user.getEmail(), user.getPassword()));
+        return "redirect:/";
+    }
 }
