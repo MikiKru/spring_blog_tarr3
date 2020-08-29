@@ -125,9 +125,14 @@ public class BlogController {
     @PostMapping("/updatePost")
     public String updatePost(
             @Valid @ModelAttribute("postToUpdate") Post postToUpdate,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model,
+            Authentication auth
     ) {
         if (bindingResult.hasErrors()){ // gdy są błędy walidacji fomularza
+            model.addAttribute("auth", blogService.getLoginStatus(auth));
+            model.addAttribute("header_title", "UPDATE POST FORM");
+            model.addAttribute("cats", Category.values());
             return "updatePost";
         }
         // edycja posta -> post_id, title, content, category
