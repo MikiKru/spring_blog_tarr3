@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addPost").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/posts*").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers(HttpMethod.POST,"/deletePost").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/updatePost*").hasAnyAuthority("ROLE_USER")
                 .anyRequest().permitAll()
                     .and()
                 .csrf().disable()
