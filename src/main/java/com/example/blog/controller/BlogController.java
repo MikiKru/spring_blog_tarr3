@@ -106,8 +106,28 @@ public class BlogController {
     @PostMapping("/deletePost")
     public String deletePost(
             @RequestParam("post_id") long postId){
-        System.out.println(postId);
         blogService.deletePostById(postId);
+        return "redirect:/";
+    }
+    @GetMapping("/updatePost")
+    public String updatePost(
+            @RequestParam("post_id") long postId,
+            Model model
+    ){
+        // wyświetlanie formularza do edycji z aktualnymi wartościami w polach title, content, category
+        model.addAttribute("postToUpdate", blogService.getPostById(postId));
+        return "updatePost";
+    }
+    @PostMapping("/updatePost")
+    public String updatePost(
+            @Valid @ModelAttribute("postToUpdate") Post postToUpdate,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()){ // gdy są błędy walidacji fomularza
+            return "updatePost";
+        }
+        // edycja posta
+        
         return "redirect:/";
     }
 }
