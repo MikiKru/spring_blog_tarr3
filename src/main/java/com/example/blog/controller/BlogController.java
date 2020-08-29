@@ -112,10 +112,14 @@ public class BlogController {
     @GetMapping("/updatePost")
     public String updatePost(
             @RequestParam("post_id") long postId,
-            Model model
+            Model model,
+            Authentication auth
     ){
+        model.addAttribute("auth", blogService.getLoginStatus(auth));
+        model.addAttribute("header_title", "UPDATE POST FORM");
         // wyświetlanie formularza do edycji z aktualnymi wartościami w polach title, content, category
         model.addAttribute("postToUpdate", blogService.getPostById(postId));
+        model.addAttribute("cats", Category.values());
         return "updatePost";
     }
     @PostMapping("/updatePost")

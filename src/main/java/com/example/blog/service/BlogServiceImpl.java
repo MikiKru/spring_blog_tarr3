@@ -133,7 +133,13 @@ public class BlogServiceImpl implements BlogService {
         return null;
     }
     public void updatePost(Post postToUpdate){
-        postRepository.save(postToUpdate);
+        long postId = postToUpdate.getPostId();
+        Post postFromDB = postRepository.getOne(postId);
+        // aktualizacja pól posta na podstawie postToUpdate
+        postFromDB.setTitle(postToUpdate.getTitle());
+        postFromDB.setContent(postToUpdate.getContent());
+        postFromDB.setCategory(postToUpdate.getCategory());
+        postRepository.save(postFromDB);
         // gdy obiekt posta jest już w bazie danych to post jest aktualizowany
     }
 }
