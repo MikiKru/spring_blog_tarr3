@@ -126,8 +126,8 @@ public class BlogController {
         if (bindingResult.hasErrors()){ // gdy są błędy walidacji fomularza
             return "updatePost";
         }
-        // edycja posta
-        
+        // edycja posta -> post_id, title, content, category
+        blogService.updatePost(postToUpdate);
         return "redirect:/";
     }
 }

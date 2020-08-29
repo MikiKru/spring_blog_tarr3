@@ -132,4 +132,8 @@ public class BlogServiceImpl implements BlogService {
         }
         return null;
     }
+    public void updatePost(Post postToUpdate){
+        postRepository.save(postToUpdate);
+        // gdy obiekt posta jest już w bazie danych to post jest aktualizowany
+    }
 }
