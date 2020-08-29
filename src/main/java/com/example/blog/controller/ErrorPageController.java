@@ -17,10 +17,10 @@ public class ErrorPageController implements ErrorController {
         this.blogService = blogService;
     }
     @Override
-    public String getErrorPath() {
-        return "myErrorPage";
+    public String getErrorPath() {      // przekierowanie w sytuacji błędnego adresu url
+        return "/error";
     }
-    @GetMapping("/myErrorPage")
+    @GetMapping("/error")               // obsługa żadania błędnego adresu url
     public String getErrorPage(
             Model model, Authentication auth
     ){
